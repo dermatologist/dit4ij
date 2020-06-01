@@ -14,7 +14,65 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>dit4ij</name>
+  <description>Dicoderma Plugin</description>
+
   <url>https://github.com/dermatologist/dit4ij</url>
+
+  <!-- Added -->
+	<inceptionYear>2013</inceptionYear>
+	<organization>
+		<name>Dermatologists Sans Borders</name>
+		<url>https://dermatologist.co.in</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Unlicense</name>
+			<url>https://unlicense.org/</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>dermatologist</id>
+			<name>Bell Eapen</name>
+			<url>https://imagej.net/User:[MY-IMAGEJ-WIKI-ACCOUNT]</url>
+		</developer>
+	</developers>
+	<contributors>
+		<contributor>
+			<name>None</name>
+		</contributor>
+	</contributors>
+
+	<mailingLists>
+		<mailingList>
+			<name>Image.sc Forum</name>
+			<archive>https://forum.image.sc/tags/imagej</archive>
+		</mailingList>
+	</mailingLists>
+
+	<scm>
+		<connection>scm:git:git://github.com/dermatologist/dit4ij</connection>
+		<developerConnection>scm:git:git@github.com:dermatologist/dit4ij</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://github.com/dermatologist/dit4ij</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>http://github.com/dermatologist/dit4ij/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>None</system>
+	</ciManagement>
+
+	<properties>
+		<main-class>GaussFiltering</main-class>
+		<license.licenseName>unlicense</license.licenseName>
+		<license.copyrightOwners>N/A</license.copyrightOwners>
+		<license.projectName>ImageJ software for multidimensional image processing and analysis.</license.projectName>
+	</properties>
+  <!-- Added -->
 
   <repositories>
 		<repository>
