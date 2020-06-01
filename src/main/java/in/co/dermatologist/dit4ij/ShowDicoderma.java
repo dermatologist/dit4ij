@@ -1,22 +1,19 @@
 package in.co.dermatologist.dit4ij;
 
+import in.co.dermatologist.dicoderma.Dicoderma;
+import in.co.dermatologist.dicoderma.DicomSCModel;
+import io.scif.services.DatasetIOService;
+import net.imagej.Dataset;
+import net.imagej.ImageJ;
 import org.scijava.ItemIO;
+import org.scijava.command.Command;
+import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
-import org.scijava.plugin.Parameter;
-import org.scijava.command.Command;
+import org.scijava.ui.UIService;
 
 import java.io.File;
 import java.io.IOException;
-
-import in.co.dermatologist.dicoderma.Dicoderma;
-import in.co.dermatologist.dicoderma.DicomSCModel;
-
-import net.imagej.Dataset;
-import net.imagej.ImageJ;
-import io.scif.services.DatasetIOService;
-import org.scijava.log.LogService;
-import org.scijava.ui.UIService;
 
 @Plugin(type = Command.class, menuPath = "Plugins>Dicoderma>Show")
 public class ShowDicoderma implements Command {
@@ -48,8 +45,12 @@ public class ShowDicoderma implements Command {
         DicomSCModel dicomSCModel = dicoderma.getDicodermaMetadataFromFile(imageFile);
         try {
             image = datasetIOService.open(imageFile.getAbsolutePath());
-            uiService.showDialog(dicomSCModel.toString());
-		}
+            String toDisplay = dicomSCModel.PatientID + " | " + dicomSCModel.PatientName + " | " + dicomSCModel.PatientSex;
+            toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyDate);
+            toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyTime);
+            toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyDescription);
+            uiService.showDialog(toDisplay);
+        }
 		catch (final IOException exc) {
 			// Use the LogService to report the error.
 			logService.error(exc);
