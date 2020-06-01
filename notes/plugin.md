@@ -65,3 +65,30 @@ ImageJ plugins that process an image should implement this interface. For filter
 ## Annotations
 
 * @Plugin(type = Command.class, menuPath = "Plugins>Gauss Filtering")
+* @Plugin(type = Command.class, headless = true, menuPath = "Help>Hello, World!")
+
+## Parameters example
+
+```
+@Parameter
+	private DatasetService datasetService;
+
+	@Parameter(min = "1")
+	private int width = 512;
+
+	@Parameter(min = "1")
+	private int height = 512;
+
+	@Parameter(type = ItemIO.OUTPUT)
+	private Dataset dataset;
+```
+
+## Creating OP
+```
+	@Plugin(type = Op.class, name = "narf")
+	public static class Narf extends AbstractOp {
+
+
+  @Plugin(type = Op.class, name = "blobs")
+public class RandomBlobs<T extends RealType<T>> extends AbstractOp {
+```
