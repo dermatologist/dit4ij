@@ -61,3 +61,7 @@ ImageJ plugins that process an image should implement this interface. For filter
 * DirectoryChooser dc = new DirectoryChooser("Directory of Dicoderma Files");
 * IJ.showStatus("Exploding Dicoderma files...");
 * IJ.showProgress(((float)i++)/files.length);
+
+## Annotations
+
+* @Plugin(type = Command.class, menuPath = "Plugins>Gauss Filtering")
