@@ -1,4 +1,4 @@
-package in.co.dermatologist;
+package in.co.dermatologist.dit4ij;
 
 /**
  * Hello world!
