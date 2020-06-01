@@ -91,6 +91,11 @@
     <dependency>
 			<groupId>net.imagej</groupId>
 			<artifactId>imagej</artifactId>
-		</dependency>
+	</dependency>
+	<dependency>
+ 		<groupId>in.co.dermatologist</groupId>
+  		<artifactId>dicoderma</artifactId>
+  		<version>1.0.0</version>
+  	</dependency>
   </dependencies>
 </project>
