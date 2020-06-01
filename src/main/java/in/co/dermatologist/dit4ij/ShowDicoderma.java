@@ -1,5 +1,6 @@
 package in.co.dermatologist.dit4ij;
 
+import org.scijava.ItemIO;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.plugin.Parameter;
@@ -11,10 +12,11 @@ import java.io.IOException;
 import in.co.dermatologist.dicoderma.Dicoderma;
 import in.co.dermatologist.dicoderma.DicomSCModel;
 
+import net.imagej.Dataset;
 import net.imagej.ImageJ;
 import io.scif.services.DatasetIOService;
 import org.scijava.log.LogService;
-
+import org.scijava.ui.UIService;
 
 @Plugin(type = Command.class, menuPath = "Plugins>Dicoderma>Show")
 public class ShowDicoderma implements Command {
@@ -22,6 +24,8 @@ public class ShowDicoderma implements Command {
     @Parameter
     private DatasetIOService datasetIOService;
     
+    @Parameter
+    private UIService uiService;
 
     @Parameter
 	private LogService logService;
@@ -30,14 +34,21 @@ public class ShowDicoderma implements Command {
 	@Parameter(label = "Image to show")
 	private File imageFile;
 
+    	/*
+	 * This command will produce an image that will automatically be shown by
+	 * the framework. Again, this command is "UI agnostic": how the image is
+	 * shown is not specified here.
+	 */
+	@Parameter(type = ItemIO.OUTPUT)
+	private Dataset image;
 
     @Override
     public void run() {
-        DicomSCModel dicomSCModel = new DicomSCModel();
         Dicoderma dicoderma = new Dicoderma();
-        dicomSCModel.PatientName = "Mickey Mouse";
+        DicomSCModel dicomSCModel = dicoderma.getDicodermaMetadataFromFile(imageFile);
         try {
-			image = datasetIOService.open(imageFile.getAbsolutePath());
+            image = datasetIOService.open(imageFile.getAbsolutePath());
+            uiService.showDialog(dicomSCModel.toString());
 		}
 		catch (final IOException exc) {
 			// Use the LogService to report the error.
