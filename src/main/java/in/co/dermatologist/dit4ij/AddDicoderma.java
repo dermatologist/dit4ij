@@ -6,8 +6,8 @@ import in.co.dermatologist.dicoderma.GenderEnum;
 import net.imagej.Dataset;
 import net.imagej.ImageJ;
 import net.imglib2.type.numeric.RealType;
-
 import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.ImageWriteException;
 import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
@@ -15,6 +15,7 @@ import org.scijava.plugin.Plugin;
 import org.scijava.ui.UIService;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -37,14 +38,14 @@ public class AddDicoderma<T extends RealType<T>> implements Command {
 	private String PatientName;
 
     @Parameter(label = "Gender", //
-    choices = { "M", "F" })
-    private String PatientSex = "M";
+            choices = {"M", "F"})
+    private final String PatientSex = "M";
 
     @Parameter(label = "Date")
-	private String StudyDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+    private final String StudyDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
     @Parameter(label = "Time")
-    private String StudyTime = new SimpleDateFormat("HH:mm:ss").format(new Date());
+    private final String StudyTime = new SimpleDateFormat("HH:mm:ss").format(new Date());
     
     @Parameter(label = "Tag")
     private String StudyDescription;
@@ -65,17 +66,21 @@ public class AddDicoderma<T extends RealType<T>> implements Command {
             DicomSCModel dicomSCModel = dicoderma.getDicodermaMetadataFromFile(currentFile);
             dicomSCModel.PatientID = PatientID;
             dicomSCModel.PatientName = PatientName;
-            if("M".equals(PatientSex))
+            if ("M".equals(PatientSex))
                 dicomSCModel.PatientSex = GenderEnum.MALE;
             else
                 dicomSCModel.PatientSex = GenderEnum.FEMALE;
             dicomSCModel.StudyDate = StudyDate;
             dicomSCModel.StudyTime = StudyTime;
-            dicomSCModel.StudyDescription = (Object) StudyDescription;
+            dicomSCModel.StudyDescription = StudyDescription;
             dicoderma.putDicomModelToFile(currentFile, newFile, dicomSCModel);
             uiService.showDialog(Util.DisplayDicoderma(dicomSCModel));
-        } catch (ImageWriteException iwe | ImageReadException ire){
-
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ImageReadException e) {
+            e.printStackTrace();
+        } catch (ImageWriteException e) {
+            e.printStackTrace();
         }
     }
 
