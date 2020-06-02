@@ -4,9 +4,8 @@ import in.co.dermatologist.dicoderma.Dicoderma;
 import in.co.dermatologist.dicoderma.DicomSCModel;
 import net.imagej.Dataset;
 import net.imagej.ImageJ;
-import net.imglib2.img.Img;
-import net.imglib2.img.ImgFactory;
-import net.imglib2.script.bufferedimage.BufferedImageImg;
+import net.imagej.ImgPlus;
+import net.imglib2.display.screenimage.awt.ARGBScreenImage;
 import net.imglib2.type.numeric.RealType;
 import org.apache.commons.imaging.ImageReadException;
 import org.scijava.command.Command;
@@ -38,13 +37,20 @@ public class DisplayDicoderma<T extends RealType<T>> implements Command {
             // BufferedImageImg bi = new BufferedImageImg();
             //ImgPlus imp = currentData.getImgPlus();
 
-            final Img<T> image = (Img<T>)currentData.getImgPlus();
+            //final Img<T> image = (Img<T>)currentData.getImgPlus();
 
-            ImgFactory<T> fac = image.factory();
-            BufferedImageImg bi = (BufferedImageImg) fac.create();
+
+            ImgPlus<? extends RealType<?>> img = currentData.getImgPlus();
+
+            ARGBScreenImage argbScreenImage = (ARGBScreenImage) img.firstElement();
+
+//            ImgFactory<T> fac = image.factory();
+//            BufferedImageImg bi = (BufferedImageImg) fac.create();
+//
+
             Dicoderma dicoderma = new Dicoderma();
 
-            BufferedImage bim = (BufferedImage) bi.image();
+            BufferedImage bim = argbScreenImage.image();
             DicomSCModel dicomSCModel = dicoderma.getDicodermaMetadata(bim);
             String toDisplay = dicomSCModel.PatientID + " | " + dicomSCModel.PatientName + " | " + dicomSCModel.PatientSex;
             toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyDate);
