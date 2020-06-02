@@ -32,11 +32,7 @@ public class DisplayDicoderma<T extends RealType<T>> implements Command {
         File currentFile = new File(currentData.getSource());
         Dicoderma dicoderma = new Dicoderma();
         DicomSCModel dicomSCModel = dicoderma.getDicodermaMetadataFromFile(currentFile);
-        String toDisplay = dicomSCModel.PatientID + " | " + dicomSCModel.PatientName + " | " + dicomSCModel.PatientSex;
-        toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyDate);
-        toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyTime);
-        toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyDescription);
-        uiService.showDialog(toDisplay);
+        uiService.showDialog(Util.DisplayDicoderma(dicomSCModel));
     }
 
     public static void main(final String... args) throws Exception {
