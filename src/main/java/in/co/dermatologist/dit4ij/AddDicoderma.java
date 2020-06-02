@@ -39,13 +39,13 @@ public class AddDicoderma<T extends RealType<T>> implements Command {
 
     @Parameter(label = "Gender", //
             choices = {"M", "F"})
-    private final String PatientSex = "M";
+    private String PatientSex = "M";
 
     @Parameter(label = "Date")
-    private final String StudyDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+    private String StudyDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
     @Parameter(label = "Time")
-    private final String StudyTime = new SimpleDateFormat("HH:mm:ss").format(new Date());
+    private String StudyTime = new SimpleDateFormat("HH:mm:ss").format(new Date());
     
     @Parameter(label = "Tag")
     private String StudyDescription;
@@ -58,7 +58,7 @@ public class AddDicoderma<T extends RealType<T>> implements Command {
             String currentFileName = currentData.getSource();
             int lastDot = currentFileName.lastIndexOf('.');
             String newFileName = currentFileName.substring(0,lastDot) + 
-                        StudyDate + "-" + StudyTime + currentFileName.substring(lastDot);
+                        "-" + StudyDate + currentFileName.substring(lastDot);
             File newFile = new File(newFileName);
 
 
