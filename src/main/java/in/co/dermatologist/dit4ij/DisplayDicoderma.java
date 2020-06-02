@@ -2,19 +2,20 @@ package in.co.dermatologist.dit4ij;
 
 import in.co.dermatologist.dicoderma.Dicoderma;
 import in.co.dermatologist.dicoderma.DicomSCModel;
-import io.scif.services.DatasetIOService;
 import net.imagej.Dataset;
 import net.imagej.ImageJ;
-import org.scijava.ItemIO;
+import net.imagej.ImgPlus;
+import net.imglib2.img.ImgFactory;
+import net.imglib2.script.bufferedimage.BufferedImageImg;
+import org.apache.commons.imaging.ImageReadException;
 import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.ui.UIService;
 
-import java.io.File;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
-import ij.ImagePlus;
 
 @Plugin(type = Command.class, menuPath = "Plugins>Dicoderma>Display")
 public class DisplayDicoderma implements Command {
@@ -33,22 +34,23 @@ public class DisplayDicoderma implements Command {
     @Override
     public void run() {
         try {
-            ImagePlus imp = currentData.getCurrentImage();
+            // BufferedImageImg bi = new BufferedImageImg();
+            ImgPlus imp = currentData.getImgPlus();
+
+            ImgFactory fac = imp.factory();
+            BufferedImageImg bi = (BufferedImageImg) fac.create();
             Dicoderma dicoderma = new Dicoderma();
-            ij2.ImagePlus imp = WindowManager.getCurrentImage();
-            int width = imp.getWidth();
-            int  height = imp.getHeight();
-            BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            DicomSCModel dicomSCModel = dicoderma.getDicodermaMetadata(bi);
+
+            BufferedImage bim = (BufferedImage) bi.image();
+            DicomSCModel dicomSCModel = dicoderma.getDicodermaMetadata(bim);
             String toDisplay = dicomSCModel.PatientID + " | " + dicomSCModel.PatientName + " | " + dicomSCModel.PatientSex;
             toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyDate);
             toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyTime);
             toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyDescription);
             uiService.showDialog(toDisplay);
-        }
-		catch (final IOException exc) {
-			// Use the LogService to report the error.
-			logService.error(exc);
+        } catch (final IOException | ImageReadException exc) {
+            // Use the LogService to report the error.
+            logService.error(exc);
         }
 
     }
