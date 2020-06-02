@@ -67,10 +67,12 @@
 	</ciManagement>
 
 	<properties>
-		<main-class>App</main-class>
+		<!-- <main-class>App</main-class> -->
 		<license.licenseName>unlicense</license.licenseName>
 		<license.copyrightOwners>N/A</license.copyrightOwners>
 		<license.projectName>ImageJ software for multidimensional image processing and analysis.</license.projectName>
+	  	<maven.compiler.source>1.8</maven.compiler.source>
+    	<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
   <!-- Added -->
 

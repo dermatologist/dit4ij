@@ -1,0 +1,1 @@
+mvn exec:java -Dexec.mainClass="in.co.dermatologist.dit4ij.ShowDicoderma"

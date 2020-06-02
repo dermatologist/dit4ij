@@ -45,16 +45,16 @@ public class ShowDicoderma implements Command {
         DicomSCModel dicomSCModel = dicoderma.getDicodermaMetadataFromFile(imageFile);
         try {
             image = datasetIOService.open(imageFile.getAbsolutePath());
-            String toDisplay = dicomSCModel.PatientID + " | " + dicomSCModel.PatientName + " | " + dicomSCModel.PatientSex;
-            toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyDate);
-            toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyTime);
-            toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyDescription);
-            uiService.showDialog(toDisplay);
         }
 		catch (final IOException exc) {
 			// Use the LogService to report the error.
 			logService.error(exc);
-		}
+        }
+        String toDisplay = dicomSCModel.PatientID + " | " + dicomSCModel.PatientName + " | " + dicomSCModel.PatientSex;
+        toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyDate);
+        toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyTime);
+        toDisplay = toDisplay.concat(" | " + dicomSCModel.StudyDescription);
+        uiService.showDialog(toDisplay);
     }
 
     public static void main(final String... args) throws Exception {
