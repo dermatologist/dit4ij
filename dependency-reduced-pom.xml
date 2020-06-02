@@ -9,7 +9,7 @@
   <groupId>in.co.dermatologist</groupId>
   <artifactId>dit4ij</artifactId>
   <name>dit4ij</name>
-  <version>0.1.0</version>
+  <version>0.1.8</version>
   <description>Dicoderma Plugin</description>
   <url>https://github.com/dermatologist/dit4ij</url>
   <issueManagement>
@@ -76,6 +76,11 @@
               <artifactSet>
                 <includes>
                   <include>in.co.dermatologist:dicoderma</include>
+                  <include>org.apache.commons:commons-imaging</include>
+                  <include>com.fasterxml.jackson.core:jackson-core</include>
+                  <include>com.fasterxml.jackson.dataformat:jackson-dataformat-properties</include>
+                  <include>com.fasterxml.jackson.core:jackson-annotations</include>
+                  <include>com.fasterxml.jackson.core:jackson-databind</include>
                 </includes>
               </artifactSet>
             </configuration>
@@ -105,9 +110,9 @@
     </dependency>
   </dependencies>
   <properties>
-    <license.copyrightOwners>N/A</license.copyrightOwners>
-    <license.projectName>ImageJ software for multidimensional image processing and analysis.</license.projectName>
     <license.licenseName>unlicense</license.licenseName>
     <main-class>App</main-class>
+    <license.projectName>ImageJ software for multidimensional image processing and analysis.</license.projectName>
+    <license.copyrightOwners>N/A</license.copyrightOwners>
   </properties>
 </project>

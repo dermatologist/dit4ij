@@ -1,3 +1,8 @@
+
+* Using maven-shade-plugin to include certain dependencies in the jar
+* Assembly will add the entire thing.
+
+
 <plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>3.3.0</version>

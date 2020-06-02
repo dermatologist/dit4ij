@@ -12,7 +12,7 @@
   <groupId>in.co.dermatologist</groupId>
   <artifactId>dit4ij</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.0</version>
+  <version>0.1.8</version>
   <name>dit4ij</name>
   <description>Dicoderma Plugin</description>
 
@@ -95,7 +95,7 @@
 	<dependency>
  		<groupId>in.co.dermatologist</groupId>
   		<artifactId>dicoderma</artifactId>
-  		<version>1.0.0</version>
+  		<version>1.8.0</version>
   	</dependency>
   </dependencies>
 
@@ -123,6 +123,11 @@
               <artifactSet>
                 <includes>
                   <include>in.co.dermatologist:dicoderma</include>
+				  <include>org.apache.commons:commons-imaging</include>
+				  <include>com.fasterxml.jackson.core:jackson-core</include>
+				  <include>com.fasterxml.jackson.dataformat:jackson-dataformat-properties</include>
+				  <include>com.fasterxml.jackson.core:jackson-annotations</include>
+				  <include>com.fasterxml.jackson.core:jackson-databind</include>
                 </includes>
               </artifactSet>
             </configuration>
