@@ -67,10 +67,12 @@
 	</ciManagement>
 
 	<properties>
-		<main-class>App</main-class>
+		<!-- <main-class>App</main-class> -->
 		<license.licenseName>unlicense</license.licenseName>
 		<license.copyrightOwners>N/A</license.copyrightOwners>
 		<license.projectName>ImageJ software for multidimensional image processing and analysis.</license.projectName>
+	  	<maven.compiler.source>1.8</maven.compiler.source>
+    	<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
   <!-- Added -->
 
@@ -87,16 +89,29 @@
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-			<groupId>net.imagej</groupId>
-			<artifactId>imagej</artifactId>
 	</dependency>
-	<dependency>
- 		<groupId>in.co.dermatologist</groupId>
-  		<artifactId>dicoderma</artifactId>
-  		<version>1.8.0</version>
-  	</dependency>
+	  <dependency>
+		  <groupId>net.imagej</groupId>
+		  <artifactId>imagej</artifactId>
+	  </dependency>
+	  <dependency>
+		  <groupId>in.co.dermatologist</groupId>
+		  <artifactId>dicoderma</artifactId>
+		  <version>1.8.0</version>
+	  </dependency>
+	  <!--	  <dependency>-->
+	  <!--		  <groupId>net.imagej</groupId>-->
+	  <!--		  <artifactId>ij</artifactId>-->
+	  <!--		  <version>1.51g</version>-->
+	  <!--	  </dependency>-->
+
+	  <!-- https://mvnrepository.com/artifact/net.imglib2/imglib2-script -->
+	  <dependency>
+		  <groupId>net.imglib2</groupId>
+		  <artifactId>imglib2-script</artifactId>
+		  <version>0.2.4</version>
+	  </dependency>
+
   </dependencies>
 
   <build>
