@@ -4,9 +4,10 @@ import in.co.dermatologist.dicoderma.Dicoderma;
 import in.co.dermatologist.dicoderma.DicomSCModel;
 import net.imagej.Dataset;
 import net.imagej.ImageJ;
-import net.imagej.ImgPlus;
+import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
 import net.imglib2.script.bufferedimage.BufferedImageImg;
+import net.imglib2.type.numeric.RealType;
 import org.apache.commons.imaging.ImageReadException;
 import org.scijava.command.Command;
 import org.scijava.log.LogService;
@@ -16,7 +17,6 @@ import org.scijava.ui.UIService;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import net.imglib2.type.numeric.RealType;
 
 @Plugin(type = Command.class, menuPath = "Plugins>Dicoderma>Display")
 public class DisplayDicoderma<T extends RealType<T>> implements Command {
@@ -36,11 +36,11 @@ public class DisplayDicoderma<T extends RealType<T>> implements Command {
     public void run() {
         try {
             // BufferedImageImg bi = new BufferedImageImg();
-            ImgPlus imp = currentData.getImgPlus();
+            //ImgPlus imp = currentData.getImgPlus();
 
             final Img<T> image = (Img<T>)currentData.getImgPlus();
 
-            ImgFactory fac = imp.factory();
+            ImgFactory<T> fac = image.factory();
             BufferedImageImg bi = (BufferedImageImg) fac.create();
             Dicoderma dicoderma = new Dicoderma();
 
