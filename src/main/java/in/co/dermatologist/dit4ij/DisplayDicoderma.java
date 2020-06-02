@@ -16,9 +16,10 @@ import org.scijava.ui.UIService;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import net.imglib2.type.numeric.RealType;
 
 @Plugin(type = Command.class, menuPath = "Plugins>Dicoderma>Display")
-public class DisplayDicoderma implements Command {
+public class DisplayDicoderma<T extends RealType<T>> implements Command {
 
     @Parameter
     private Dataset currentData;
@@ -36,6 +37,8 @@ public class DisplayDicoderma implements Command {
         try {
             // BufferedImageImg bi = new BufferedImageImg();
             ImgPlus imp = currentData.getImgPlus();
+
+            final Img<T> image = (Img<T>)currentData.getImgPlus();
 
             ImgFactory fac = imp.factory();
             BufferedImageImg bi = (BufferedImageImg) fac.create();
@@ -61,7 +64,7 @@ public class DisplayDicoderma implements Command {
 		ij.launch(args);
 
 		// Launch the "OpenImage" command.
-		ij.command().run(ShowDicoderma.class, true);
+		ij.command().run(DisplayDicoderma.class, true);
 	}
 
 }
