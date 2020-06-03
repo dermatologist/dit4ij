@@ -22,7 +22,8 @@ import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-
+import java.util.ArrayList;
+import java.util.List;
 public class DitJpg2Dcm extends Jpg2Dcm {
 //    org.dcm4che3.tool.jpg2dcm.Jpg2Dcm main = new Jpg2Dcm();
 
@@ -34,6 +35,23 @@ public class DitJpg2Dcm extends Jpg2Dcm {
         setNoAPPn(false);
         setPhoto(false);
         Attributes staticMetadata = new Attributes();
+
+        // Split on equals TODO Remove after changing this in dicoderma
+        List<String> list = new ArrayList<>();
+        for (String s : dicodermaMetadataAsArray) {
+            if (!s.trim().endsWith("=") && !s.trim().endsWith("null"))
+                list.add(s);
+        }
+        dicodermaMetadataAsArray = list.toArray(new String[0]);
+        List<String> list2 = new ArrayList<>();
+        for (String s : dicodermaMetadataAsArray) {
+            String[] parts = s.split("=", -2);
+            for(String ss: parts)
+                list2.add(ss);
+        }
+        dicodermaMetadataAsArray = list2.toArray(new String[0]);
+        /////////////////////////////////////////////////////////////////
+
         CLIUtils.addAttributes(staticMetadata, dicodermaMetadataAsArray);
         supplementMissingUIDs(staticMetadata);
         supplementMissingValue(staticMetadata, Tag.SeriesNumber, "999");

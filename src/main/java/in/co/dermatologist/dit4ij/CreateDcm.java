@@ -57,11 +57,8 @@ public class CreateDcm implements Command {
             final List<String> list = new ArrayList<>();
             for (String s : dicodermaMetadataAsArray) {
                 logService.info("Processing" + s);
-                if (s.trim().endsWith("="))
-                    break;
-                if (s.trim().endsWith("null"))
-                    break;
-                list.add(s);
+                if (!s.trim().endsWith("=") && !s.trim().endsWith("null"))
+                    list.add(s);
                 logService.info("Adding" + s);
             }
 
