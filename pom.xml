@@ -137,12 +137,16 @@
             <configuration>
               <artifactSet>
                 <includes>
+				  <include>commons-cli:commons-cli</include>
                   <include>in.co.dermatologist:dicoderma</include>
 				  <include>org.apache.commons:commons-imaging</include>
 				  <include>com.fasterxml.jackson.core:jackson-core</include>
 				  <include>com.fasterxml.jackson.dataformat:jackson-dataformat-properties</include>
 				  <include>com.fasterxml.jackson.core:jackson-annotations</include>
 				  <include>com.fasterxml.jackson.core:jackson-databind</include>
+				  <include>org.dcm4che:dcm4che-core</include>
+				  <include>org.dcm4che:dcm4che-imageio</include>
+				  <include>org.dcm4che.tool:*</include>
                 </includes>
               </artifactSet>
             </configuration>
