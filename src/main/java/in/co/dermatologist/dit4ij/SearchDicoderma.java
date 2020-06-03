@@ -61,12 +61,14 @@ public class SearchDicoderma<T extends RealType<T>> implements Command {
                     if (
                             (dicomSCModel.PatientID != null && dicomSCModel.PatientID.contains(SearchTerm)) ||
                             (dicomSCModel.PatientName != null && dicomSCModel.PatientName.contains(SearchTerm)) ||
+                            (dicomSCModel.PatientBirthDate != null && dicomSCModel.PatientBirthDate.contains(SearchTerm)) ||
                             (dicomSCModel.StudyDescription != null && dicomSCModel.StudyDescription.toString().contains(SearchTerm)) ||
                             (dicomSCModel.StudyDate != null && dicomSCModel.StudyDate.contains(SearchTerm)) 
 
-                        )
+                        ){
                         image = datasetIOService.open(child.getAbsolutePath());
-    
+                        uiService.show(image);
+                        }
                 }
             } else {
                 // Handle the case where dir is not really a directory.
