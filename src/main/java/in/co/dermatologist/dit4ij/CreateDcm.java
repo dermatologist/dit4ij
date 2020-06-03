@@ -1,7 +1,6 @@
 package in.co.dermatologist.dit4ij;
 
 import in.co.dermatologist.dicoderma.Dicoderma;
-import in.co.dermatologist.dicoderma.DicodermaJpg2Dcm;
 import in.co.dermatologist.dicoderma.DicomSCModel;
 import net.imagej.Dataset;
 import net.imagej.ImageJ;
@@ -63,8 +62,8 @@ public class CreateDcm implements Command {
                 logService.info(s);
             }
 
-            DicodermaJpg2Dcm dicodermaJpg2Dcm = new DicodermaJpg2Dcm();
-            dicodermaJpg2Dcm.convertJpgToDcm(currentFile, newFile, dicodermaMetadataAsArray);
+            DitJpg2Dcm ditJpg2Dcm = new DitJpg2Dcm();
+            ditJpg2Dcm.convertJpgToDcm(currentFile, newFile, dicodermaMetadataAsArray);
 
             uiService.showDialog(newFileName + " created.");
         } catch (IOException e) {

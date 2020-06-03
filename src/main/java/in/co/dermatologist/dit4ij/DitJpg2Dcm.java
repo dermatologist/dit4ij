@@ -1,25 +1,28 @@
+package in.co.dermatologist.dit4ij;
+
+import in.co.dermatologist.dicoderma.Jpg2Dcm;
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.Tag;
+import org.dcm4che3.data.UID;
 import org.dcm4che3.data.VR;
 import org.dcm4che3.imageio.codec.XPEGParser;
+import org.dcm4che3.imageio.codec.jpeg.JPEG;
+import org.dcm4che3.imageio.codec.jpeg.JPEGParser;
 import org.dcm4che3.io.DicomOutputStream;
 import org.dcm4che3.io.SAXReader;
 import org.dcm4che3.tool.common.CLIUtils;
 import org.dcm4che3.util.StreamUtils;
-
-import org.dcm4che3.data.UID;
-import org.dcm4che3.imageio.codec.jpeg.*;
-
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import java.net.URL;
+
 public class DitJpg2Dcm extends Jpg2Dcm {
 //    org.dcm4che3.tool.jpg2dcm.Jpg2Dcm main = new Jpg2Dcm();
 
@@ -52,7 +55,7 @@ public class DitJpg2Dcm extends Jpg2Dcm {
         fileMetadata.addAll(staticMetadata);
         supplementMissingValue(fileMetadata, Tag.SOPClassUID, UID.SecondaryCaptureImageStorage);
         try (SeekableByteChannel channel = Files.newByteChannel(srcFilePath);
-            DicomOutputStream dos = new DicomOutputStream(destFilePath.toFile())) {
+             DicomOutputStream dos = new DicomOutputStream(destFilePath.toFile())) {
             XPEGParser parser = new JPEGParser(channel);
             parser.getAttributes(fileMetadata);
             dos.writeDataset(fileMetadata.createFileMetaInformation(parser.getTransferSyntaxUID()), fileMetadata);
