@@ -22,17 +22,26 @@ public class CreateDcm implements Command {
 
     @Parameter
     private Dataset currentData;
-    
+
     @Parameter
     private UIService uiService;
 
     @Parameter
     private LogService logService;
-    
+
+
+    public static void main(final String... args) {
+        // Launch ImageJ as usual.
+        final ImageJ ij = new ImageJ();
+        ij.launch(args);
+
+        // Launch the "OpenImage" command.
+        ij.command().run(DisplayDicoderma.class, true);
+    }
 
     @Override
     public void run() {
-        try{
+        try {
             File currentFile = new File(currentData.getSource());
 
             String currentFileName = currentData.getSource();
@@ -45,43 +54,32 @@ public class CreateDcm implements Command {
             DicomSCModel dicomSCModel = dicoderma.getDicodermaMetadataFromFile(currentFile);
             String[] dicodermaMetadataAsArray = dicoderma.getModelAsStringArray(dicomSCModel);
 
-            final List<String> list = new ArrayList<String>();
+            final List<String> list = new ArrayList<>();
             for (String s : dicodermaMetadataAsArray) {
+                logService.info("Processing" + s);
                 if (s.trim().endsWith("="))
                     break;
                 if (s.trim().endsWith("null"))
                     break;
                 list.add(s);
+                logService.info("Adding" + s);
             }
 
 
 //            Collections.addAll(list, dicodermaMetadataAsArray);
 //            list.remove("TypeOfPatientID=");
-            dicodermaMetadataAsArray = list.toArray(new String[list.size()]);
+            dicodermaMetadataAsArray = list.toArray(new String[0]);
             for (String s : dicodermaMetadataAsArray) {
-                logService.info(s);
+                logService.info("Included" + s);
             }
 
             DitJpg2Dcm ditJpg2Dcm = new DitJpg2Dcm();
             ditJpg2Dcm.convertJpgToDcm(currentFile, newFile, dicodermaMetadataAsArray);
 
             uiService.showDialog(newFileName + " created.");
-        } catch (IOException e) {
+        } catch (IOException | ParserConfigurationException | SAXException e) {
             e.printStackTrace();
-        } catch (ParserConfigurationException e){
-            e.printStackTrace();
-        } catch (SAXException e){
-            e.printStackTrace();            
         }
     }
-
-    public static void main(final String... args) throws Exception {
-		// Launch ImageJ as usual.
-		final ImageJ ij = new ImageJ();
-		ij.launch(args);
-
-		// Launch the "OpenImage" command.
-		ij.command().run(DisplayDicoderma.class, true);
-	}
 
 }
