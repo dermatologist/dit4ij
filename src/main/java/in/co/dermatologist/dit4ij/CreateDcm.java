@@ -54,9 +54,6 @@ public class CreateDcm implements Command {
                 list.add(s);
             }
 
-
-//            Collections.addAll(list, dicodermaMetadataAsArray);
-//            list.remove("TypeOfPatientID=");
             dicodermaMetadataAsArray = list.toArray(new String[list.size()]);
             for (String s : dicodermaMetadataAsArray) {
                 logService.info(s);
