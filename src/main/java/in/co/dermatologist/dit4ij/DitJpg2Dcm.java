@@ -46,12 +46,31 @@ public class DitJpg2Dcm extends Jpg2Dcm {
         //@TODO: Check for Image Type
         //ContentType fileType = ContentType.IMAGE_JPEG;
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource("secondaryCaptureImageMetadata.xml");
-        String SCImageMetadataFile = resource.getFile();
+        // ClassLoader classLoader = getClass().getClassLoader();
+        // URL resource = classLoader.getResource("secondaryCaptureImageMetadata.xml");
+        // String SCImageMetadataFile = resource.getFile();
 
-
-        Attributes fileMetadata = SAXReader.parse(StreamUtils.openFileOrURL(SCImageMetadataFile));
+        String scString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+                scString = scString + "<NativeDicomModel xml:space=\"preserve\">";
+                scString = scString + "<DicomAttribute keyword=\"PatientID\" tag=\"00100020\" vr=\"LO\"/>";
+                scString = scString + "<DicomAttribute keyword=\"PatientName\" tag=\"00100010\" vr=\"PN\"/>";
+                scString = scString + "<DicomAttribute keyword=\"PatientBirthDate\" tag=\"00100030\" vr=\"DA\"/>";
+                scString = scString + "<DicomAttribute keyword=\"PatientSex\" tag=\"00100040\" vr=\"CS\"/>";
+                scString = scString + "<DicomAttribute keyword=\"StudyDate\" tag=\"00080020\" vr=\"DA\"/>";
+                scString = scString + "<DicomAttribute keyword=\"StudyTime\" tag=\"00080030\" vr=\"TM\"/>";
+                scString = scString + "<DicomAttribute keyword=\"ReferringPhysicianName\" tag=\"00080090\" vr=\"PN\"/>";
+                scString = scString + "<DicomAttribute keyword=\"StudyID\" tag=\"00200010\" vr=\"SH\"/>";
+                scString = scString + "<DicomAttribute keyword=\"AccessionNumber\" tag=\"00080050\" vr=\"SH\"/>";
+                scString = scString + "<DicomAttribute keyword=\"SeriesNumber\" tag=\"00200011\" vr=\"IS\"/>";
+                scString = scString + "<DicomAttribute keyword=\"ConversionType\" tag=\"00080064\" vr=\"CS\">";
+                    scString = scString + "<Value number=\"1\">SI";
+                    scString = scString + "</Value>";
+                scString = scString + "</DicomAttribute>";
+                scString = scString + "<DicomAttribute keyword=\"InstanceNumber\" tag=\"00200013\" vr=\"IS\"/>";
+                scString = scString + "<DicomAttribute keyword=\"PatientOrientation\" tag=\"00200020\" vr=\"CS\"/>";
+                scString = scString + "</NativeDicomModel>";
+        InputStream targetStream = new ByteArrayInputStream(scString.getBytes());
+        Attributes fileMetadata = SAXReader.parse(targetStream);
         fileMetadata.addAll(staticMetadata);
         supplementMissingValue(fileMetadata, Tag.SOPClassUID, UID.SecondaryCaptureImageStorage);
         try (SeekableByteChannel channel = Files.newByteChannel(srcFilePath);
