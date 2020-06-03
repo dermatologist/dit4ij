@@ -41,6 +41,9 @@ public class AddDicoderma<T extends RealType<T>> implements Command {
             choices = {"M", "F"})
     private String PatientSex = "M";
 
+    @Parameter(label = "Date of Birth")
+    private String PatientBirthDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+
     @Parameter(label = "Date")
     private String StudyDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
@@ -70,6 +73,7 @@ public class AddDicoderma<T extends RealType<T>> implements Command {
                 dicomSCModel.PatientSex = GenderEnum.MALE;
             else
                 dicomSCModel.PatientSex = GenderEnum.FEMALE;
+            dicomSCModel.PatientBirthDate = PatientBirthDate;
             dicomSCModel.StudyDate = StudyDate;
             dicomSCModel.StudyTime = StudyTime;
             dicomSCModel.StudyDescription = StudyDescription;
