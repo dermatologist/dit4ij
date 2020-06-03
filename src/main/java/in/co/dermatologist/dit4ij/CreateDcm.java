@@ -14,25 +14,34 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+// import java.util.ArrayList;
+// import java.util.List;
 
 @Plugin(type = Command.class, menuPath = "Plugins>Dicoderma>Create DCM")
 public class CreateDcm implements Command {
 
     @Parameter
     private Dataset currentData;
-    
+
     @Parameter
     private UIService uiService;
 
     @Parameter
     private LogService logService;
-    
+
+
+    public static void main(final String... args) {
+        // Launch ImageJ as usual.
+        final ImageJ ij = new ImageJ();
+        ij.launch(args);
+
+        // Launch the "OpenImage" command.
+        ij.command().run(DisplayDicoderma.class, true);
+    }
 
     @Override
     public void run() {
-        try{
+        try {
             File currentFile = new File(currentData.getSource());
 
             String currentFileName = currentData.getSource();
@@ -45,40 +54,21 @@ public class CreateDcm implements Command {
             DicomSCModel dicomSCModel = dicoderma.getDicodermaMetadataFromFile(currentFile);
             String[] dicodermaMetadataAsArray = dicoderma.getModelAsStringArray(dicomSCModel);
 
-            final List<String> list = new ArrayList<String>();
-            for (String s : dicodermaMetadataAsArray) {
-                if (s.trim().endsWith("="))
-                    break;
-                if (s.trim().endsWith("null"))
-                    break;
-                list.add(s);
-            }
-
-            dicodermaMetadataAsArray = list.toArray(new String[list.size()]);
-            for (String s : dicodermaMetadataAsArray) {
-                logService.info(s);
-            }
+            // final List<String> list = new ArrayList<>();
+            // for (String s : dicodermaMetadataAsArray) {
+            //     logService.info("Processing" + s);
+            //     if (!s.trim().endsWith("=") && !s.trim().endsWith("null"))
+            //         list.add(s);
+            //     logService.info("Adding" + s);
+            // }
 
             DitJpg2Dcm ditJpg2Dcm = new DitJpg2Dcm();
             ditJpg2Dcm.convertJpgToDcm(currentFile, newFile, dicodermaMetadataAsArray);
 
             uiService.showDialog(newFileName + " created.");
-        } catch (IOException e) {
+        } catch (IOException | ParserConfigurationException | SAXException e) {
             e.printStackTrace();
-        } catch (ParserConfigurationException e){
-            e.printStackTrace();
-        } catch (SAXException e){
-            e.printStackTrace();            
         }
     }
-
-    public static void main(final String... args) throws Exception {
-		// Launch ImageJ as usual.
-		final ImageJ ij = new ImageJ();
-		ij.launch(args);
-
-		// Launch the "OpenImage" command.
-		ij.command().run(DisplayDicoderma.class, true);
-	}
 
 }

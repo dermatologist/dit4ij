@@ -22,7 +22,6 @@ import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-
 public class DitJpg2Dcm extends Jpg2Dcm {
 //    org.dcm4che3.tool.jpg2dcm.Jpg2Dcm main = new Jpg2Dcm();
 
@@ -34,6 +33,8 @@ public class DitJpg2Dcm extends Jpg2Dcm {
         setNoAPPn(false);
         setPhoto(false);
         Attributes staticMetadata = new Attributes();
+
+
         CLIUtils.addAttributes(staticMetadata, dicodermaMetadataAsArray);
         supplementMissingUIDs(staticMetadata);
         supplementMissingValue(staticMetadata, Tag.SeriesNumber, "999");
