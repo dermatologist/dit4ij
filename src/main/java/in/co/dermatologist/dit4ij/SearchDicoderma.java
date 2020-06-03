@@ -11,39 +11,34 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.ui.UIService;
 
+import org.scijava.ItemIO;
+import io.scif.services.DatasetIOService;
+
 import java.io.File;
-import java.nio.file.Path;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.IOException;
 
 @Plugin(type = Command.class, menuPath = "Plugins>Dicoderma>Search")
 public class SearchDicoderma<T extends RealType<T>> implements Command {
 
-    @Parameter(label = "Gender", //
-            choices = {"M", "F"})
-    private final String PatientSex = "M";
-    @Parameter(label = "Date")
-    private final String StudyDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-    @Parameter(label = "Time")
-    private final String StudyTime = new SimpleDateFormat("HH:mm:ss").format(new Date());
-    @Parameter
-    private Dataset currentData;
-    @Parameter
-    private UIService uiService;
-    @Parameter
-    private LogService logService;
+
+	@Parameter(type = ItemIO.OUTPUT)
+    private Dataset image;
+
     /**
      * Location on disk of the input image.
      */
     @Parameter(label = "Path to search")
-    private Path pathToSearch;
-    @Parameter(label = "Patient ID")
-    private String PatientID;
-    @Parameter(label = "Patient Name")
-    private String PatientName;
-    @Parameter(label = "Tag")
-    private String StudyDescription;
+    private String pathToSearch;
+    @Parameter(label = "Search Term")
+    private String SearchTerm;
+    @Parameter
+    private UIService uiService;
+    @Parameter
+    private LogService logService;
+    @Parameter
+    private DatasetIOService datasetIOService;
 
+    
     public static void main(final String... args) {
         // Launch ImageJ as usual.
         final ImageJ ij = new ImageJ();
@@ -55,23 +50,36 @@ public class SearchDicoderma<T extends RealType<T>> implements Command {
 
     @Override
     public void run() {
-        File dir = new File(pathToSearch.toString());
-        File[] directoryListing = dir.listFiles();
-        Dicoderma dicoderma = new Dicoderma();
-        DicomSCModel dicomSCModel = new DicomSCModel();
-        if (directoryListing != null) {
-            for (File child : directoryListing) {
-                // Do something with child
-                dicomSCModel = dicoderma.getDicodermaMetadataFromFile(child);
-            }
-        } else {
-            // Handle the case where dir is not really a directory.
-            // Checking dir.isDirectory() above would not be sufficient
-            // to avoid race conditions with another process that deletes
-            // directories.
-            uiService.showDialog(pathToSearch.toString() + " is not valid.");
+        try {
+            File dir = new File(pathToSearch);
+            File[] directoryListing = dir.listFiles();
+            Dicoderma dicoderma = new Dicoderma();
+            DicomSCModel dicomSCModel = new DicomSCModel();
+            if (directoryListing != null) {
+                for (File child : directoryListing) {
+                    dicomSCModel = dicoderma.getDicodermaMetadataFromFile(child);
+                    if (
+                            (dicomSCModel.PatientID != null && dicomSCModel.PatientID.contains(SearchTerm)) ||
+                            (dicomSCModel.PatientName != null && dicomSCModel.PatientName.contains(SearchTerm)) ||
+                            (dicomSCModel.StudyDescription != null && dicomSCModel.StudyDescription.toString().contains(SearchTerm)) ||
+                            (dicomSCModel.StudyDate != null && dicomSCModel.StudyDate.contains(SearchTerm)) 
 
+                        )
+                        image = datasetIOService.open(child.getAbsolutePath());
+    
+                }
+            } else {
+                // Handle the case where dir is not really a directory.
+                // Checking dir.isDirectory() above would not be sufficient
+                // to avoid race conditions with another process that deletes
+                // directories.
+                uiService.showDialog(pathToSearch.toString() + " is not valid.");
+    
+            }            
+        } catch (IOException e) {
+            //TODO: handle exception
         }
+
     }
 
 }

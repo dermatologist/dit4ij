@@ -14,8 +14,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+// import java.util.ArrayList;
+// import java.util.List;
 
 @Plugin(type = Command.class, menuPath = "Plugins>Dicoderma>Create DCM")
 public class CreateDcm implements Command {
@@ -54,21 +54,13 @@ public class CreateDcm implements Command {
             DicomSCModel dicomSCModel = dicoderma.getDicodermaMetadataFromFile(currentFile);
             String[] dicodermaMetadataAsArray = dicoderma.getModelAsStringArray(dicomSCModel);
 
-            final List<String> list = new ArrayList<>();
-            for (String s : dicodermaMetadataAsArray) {
-                logService.info("Processing" + s);
-                if (!s.trim().endsWith("=") && !s.trim().endsWith("null"))
-                    list.add(s);
-                logService.info("Adding" + s);
-            }
-
-
-//            Collections.addAll(list, dicodermaMetadataAsArray);
-//            list.remove("TypeOfPatientID=");
-            dicodermaMetadataAsArray = list.toArray(new String[0]);
-            for (String s : dicodermaMetadataAsArray) {
-                logService.info("Included" + s);
-            }
+            // final List<String> list = new ArrayList<>();
+            // for (String s : dicodermaMetadataAsArray) {
+            //     logService.info("Processing" + s);
+            //     if (!s.trim().endsWith("=") && !s.trim().endsWith("null"))
+            //         list.add(s);
+            //     logService.info("Adding" + s);
+            // }
 
             DitJpg2Dcm ditJpg2Dcm = new DitJpg2Dcm();
             ditJpg2Dcm.convertJpgToDcm(currentFile, newFile, dicodermaMetadataAsArray);
