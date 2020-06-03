@@ -23,6 +23,9 @@ import java.util.Date;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 
+
+import java.util.*;
+
 @Plugin(type = Command.class, menuPath = "Plugins>Dicoderma>Create DCM")
 public class CreateDcm implements Command {
 
@@ -50,6 +53,17 @@ public class CreateDcm implements Command {
             Dicoderma dicoderma = new Dicoderma();
             DicomSCModel dicomSCModel = dicoderma.getDicodermaMetadataFromFile(currentFile);
             String[] dicodermaMetadataAsArray = dicoderma.getModelAsStringArray(dicomSCModel);
+
+            final List<String> list =  new ArrayList<String>();
+
+            
+            Collections.addAll(list, dicodermaMetadataAsArray); 
+            list.remove("TypeOfPatientID=");
+            dicodermaMetadataAsArray = list.toArray(new String[list.size()]);
+            for(String s : dicodermaMetadataAsArray){
+                logService.info(s);
+            }
+            
             DicodermaJpg2Dcm dicodermaJpg2Dcm = new DicodermaJpg2Dcm();
             dicodermaJpg2Dcm.convertJpgToDcm(currentFile, newFile, dicodermaMetadataAsArray);
 
